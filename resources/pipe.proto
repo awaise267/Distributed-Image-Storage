@@ -1,0 +1,55 @@
+option optimize_for = SPEED;
+option java_package = "routing";
+
+import "common.proto";
+import "election.proto";
+import "fileTransfer.proto";
+
+message CommandMessage {
+   required Header header = 1;
+
+    oneof payload {
+      // a client (external) sanity check for testing
+       bool ping = 3;
+
+       string message = 4;
+      
+       Failure err = 5;
+      
+       bytes file = 6;
+       
+       LeaderStatus leaderStatus = 8;
+       
+       ResponseMsg reponseMsg = 11;      
+       
+       CheckRequest checkRequest = 12;
+      
+       GetRequest getRequest = 13;
+   }
+   optional int64 size = 7;
+   
+   optional int64 fileId = 9;
+   
+   optional int32 chunkId = 10;
+}
+
+message ResponseMsg {
+	required bool ResponseStatus = 1;
+	required int64 fileId = 2;	
+	optional FileMsg fileMsg= 3;
+	required Operation operation = 4;
+	
+	enum Operation {
+      Get = 1;
+      Put = 2;
+      Find = 3;
+   }
+}
+
+message CheckRequest {
+	required int64 fileId = 1;
+}
+
+message GetRequest{
+	required int64 fileId = 1;
+}

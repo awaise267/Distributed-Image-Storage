@@ -1,0 +1,21 @@
+option optimize_for = SPEED;
+option java_package = "routing";
+
+message FileMsg {
+	required bytes fileChunk = 1;
+	required int64 size = 2;   
+    required int64 fileId = 3;   
+    required int32 chunkId = 4;
+}
+
+message RaftMessage{
+
+	 oneof payload {
+      LogResponse logResponse = 1;
+   }
+   
+}
+
+message LogResponse{
+	required int64 fileIdReplicated = 1;
+}
